@@ -1,10 +1,10 @@
 # go-tdameritrade
 go client for the tdameritrade api
 
-[![Documentation](https://godoc.org/github.com/JonCooperWorks/go-tdameritrade?status.svg)](https://godoc.org/github.com/JonCooperWorks/go-tdameritrade)
+[![Documentation](https://godoc.org/github.com/tomichal/go-tdameritrade?status.svg)](https://godoc.org/github.com/tomichal/go-tdameritrade)
 
 
-```import "github.com/JonCooperWorks/go-tdameritrade"```
+```import "github.com/tomichal/go-tdameritrade"```
 
 go-tdameritrade handles all interaction with the [TD Ameritrade REST API](https://developer.tdameritrade.com/apis).
 See the TD Ameritrade [developer site](https://developer.tdameritrade.com/) to learn how their APIs work.
@@ -13,10 +13,10 @@ go-tdameritrade doesn't support streaming yet.
 
 
 ## Authentication with TD Ameritrade
-There is an example of using OAuth2 to authenticate a user and use the services on the TD Ameritrade API in [examples/webauth/webauth.go](https://github.com/JonCooperWorks/go-tdameritrade/blob/master/examples/webauth/webauth.go).
+There is an example of using OAuth2 to authenticate a user and use the services on the TD Ameritrade API in [examples/webauth/webauth.go](https://github.com/tomichal/go-tdameritrade/blob/master/examples/webauth/webauth.go).
 Authentication is handled by the ```Authenticator``` struct and its methods ```StartOAuth2Flow``` and ```FinishOAuth2Flow```.
 You can get an authenticated ```tdameritrade.Client``` from an authenticated request with the ```AuthenticatedClient``` method, and use that to interact with the TD API.
-See [auth.go](https://github.com/JonCooperWorks/go-tdameritrade/blob/master/auth.go).
+See [auth.go](https://github.com/tomichal/go-tdameritrade/blob/master/auth.go).
 
 ```
 // Authenticator is a helper for TD Ameritrade's authentication.
@@ -31,7 +31,7 @@ type Authenticator struct {
 ```
 
 The library handles state generation and the OAuth2 flow.
-Users simply implement the ```PersistentStore``` interface (see [auth.go](https://github.com/JonCooperWorks/go-tdameritrade/blob/master/auth.go)) and tell it how to store and retrieve OAuth2 state and an ```oauth2.Token``` with the logged in user's credentials.
+Users simply implement the ```PersistentStore``` interface (see [auth.go](https://github.com/tomichal/go-tdameritrade/blob/master/auth.go)) and tell it how to store and retrieve OAuth2 state and an ```oauth2.Token``` with the logged in user's credentials.
 
 ```
 // PersistentStore is meant to persist data from TD Ameritrade that is needed between requests.
@@ -78,7 +78,7 @@ You get a ```tdameritrade.Client``` from the ```FinishOAuth2``` or ```Authentica
 
 ## Examples
 
-More examples are in the [examples](https://github.com/JonCooperWorks/go-tdameritrade/tree/master/examples) directory.
+More examples are in the [examples](https://github.com/tomichal/go-tdameritrade/tree/master/examples) directory.
 
 #### Configuring the Authenticator from an environment variable
 
