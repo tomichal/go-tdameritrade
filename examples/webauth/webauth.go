@@ -3,12 +3,10 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"log"
-	"net/http"
-	"os"
-
 	"github.com/tomichal/go-tdameritrade"
 	"golang.org/x/oauth2"
+	"log"
+	"net/http"
 )
 
 type HTTPHeaderStore struct{}
@@ -87,7 +85,7 @@ type TDHandlers struct {
 	authenticator *tdameritrade.Authenticator
 }
 
-func (h *TDHandlers) Authenticate(w http.ResponseWriter, req *http.Request) {
+func (h *TDHandlers) Login(w http.ResponseWriter, req *http.Request) {
 	redirectURL, err := h.authenticator.StartOAuth2Flow(w, req)
 	if err != nil {
 		w.Write([]byte(err.Error()))
@@ -159,11 +157,11 @@ func main() {
 				TokenURL: "https://api.tdameritrade.com/v1/oauth2/token",
 				AuthURL:  "https://auth.tdameritrade.com/auth",
 			},
-			RedirectURL: "https://localhost:8080/callback",
+			RedirectURL: "https://trader.local/callback",
 		},
 	)
 	handlers := &TDHandlers{authenticator: authenticator}
-	http.HandleFunc("/authenticate", handlers.Authenticate)
+	http.HandleFunc("/login", handlers.Login)
 	http.HandleFunc("/callback", handlers.Callback)
 	http.HandleFunc("/quote", handlers.Quote)
 	log.Fatal(http.ListenAndServe(":8080", nil))
