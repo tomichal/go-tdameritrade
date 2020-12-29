@@ -38,9 +38,9 @@ type StoredWatchlist []struct {
 // StoredWatchlistItem is an item in the user's existing watchlist.
 type StoredWatchlistItem struct {
 	SequenceID    int                       `json:"sequenceId"`
-	Quantity      int                       `json:"quantity"`
-	AveragePrice  int                       `json:"averagePrice"`
-	Commission    int                       `json:"commission"`
+	Quantity      float64                   `json:"quantity"`
+	AveragePrice  float64                   `json:"averagePrice"`
+	Commission    float64                   `json:"commission"`
 	PurchasedDate string                    `json:"purchasedDate"`
 	Instrument    StoredWatchlistInstrument `json:"instrument"`
 	Status        string                    `json:"status"`
@@ -133,7 +133,7 @@ func (s *WatchlistService) GetAllWatchlists(ctx context.Context) (*[]StoredWatch
 
 // GetAllWatchlistsForAccount returns all watchlists for a single user account.
 // See https://developer.tdameritrade.com/watchlist/apis/get/accounts/%7BaccountId%7D/watchlists-0
-func (s *WatchlistService) GetAllWatchlistsForAccount(ctx context.Context, accountID string) (*[]StoredWatchlist, *Response, error) {
+func (s *WatchlistService) GetAllWatchlistsForAccount(ctx context.Context, accountID string) (*StoredWatchlist, *Response, error) {
 	if accountID == "" {
 		return nil, nil, fmt.Errorf("accountID cannot be empty")
 	}
@@ -144,7 +144,12 @@ func (s *WatchlistService) GetAllWatchlistsForAccount(ctx context.Context, accou
 		return nil, nil, err
 	}
 
-	watchlists := new([]StoredWatchlist)
+	// I have to fucking clue why the below was in the original code AND why it throws an error when the JSON response is decoded.
+	// `watchlists := new([]StoredWatchlist)`
+	// Instead using `&StoredWatchlist{}` does work, but I also have no clue why, BUT I don't care to find out right now.
+	// That is correct -- I am not a nerd and I don't care. I just want it to do what I want it to do.
+	// I AM good at passive agressive hate comments!
+	watchlists := &StoredWatchlist{}
 	resp, err := s.client.Do(ctx, req, watchlists)
 	return watchlists, resp, err
 }
