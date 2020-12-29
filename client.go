@@ -44,6 +44,14 @@ type Response struct {
 	// TODO add additional items if needed
 }
 
+func (response *Response) ToString() string {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(response.Body)
+	newStr := buf.String()
+
+	return newStr
+}
+
 // NewClient returns a new TD-Ameritrade API client. If a nil httpClient is
 // provided, a new http.Client will be used. To use API methods which require
 // authentication, provide an http.Client that will perform the authentication
